@@ -1,0 +1,10 @@
+2026-06-12 10:15:23 ERROR Failed to connect to database server01
+2026-06-12 10:15:45 INFO User login successful user=john
+2026-06-12 10:16:01 WARN High memory usage detected on server02
+2026-06-12 10:16:30 ERROR Failed to connect to database server01
+2026-06-12 10:17:02 INFO User login successful user=alice
+2026-06-12 10:17:45 ERROR API timeout on payment service
+2026-06-12 10:18:10 INFO Order processed successfully order_id=1001
+2026-06-12 10:18:33 ERROR Failed to connect to database server01
+2026-06-12 10:19:01 WARN Disk space low on server03
+2026-06-12 10:19:45 INFO User logout user=john

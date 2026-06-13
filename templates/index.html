@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Splunk Ops Assistant</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">&gt;_</span>
+      <div class="brand-text">
+        <h1>Splunk Ops Assistant</h1>
+        <p>Ask questions about your logs in plain English</p>
+      </div>
+    </div>
+    <div class="status-pill" id="connStatus">
+      <span class="dot"></span> MCP connected
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <section class="panel history-panel">
+      <div class="panel-head">
+        <h2>Query history</h2>
+      </div>
+      <ul class="history-list" id="historyList">
+        <li class="history-empty" id="historyEmpty">No queries yet</li>
+      </ul>
+    </section>
+
+    <section class="panel chat-panel">
+      <div class="panel-head">
+        <h2>Conversation</h2>
+      </div>
+
+      <div class="chat-log" id="chatLog">
+        <div class="msg msg-system">
+          <p>Ask a question about the <code>sample_log</code> data in plain English. Try one of the suggestions below, or type your own.</p>
+        </div>
+      </div>
+
+      <div class="suggestions" id="suggestions">
+        <button type="button" class="suggestion-chip" data-q="Show me all the errors">Show all errors</button>
+        <button type="button" class="suggestion-chip" data-q="How many login events happened">Count logins</button>
+        <button type="button" class="suggestion-chip" data-q="Show me warning messages">Show warnings</button>
+        <button type="button" class="suggestion-chip" data-q="What happened around 10:18 AM">Events at 10:18 AM</button>
+      </div>
+
+      <form class="composer" id="composer">
+        <input
+          type="text"
+          id="questionInput"
+          placeholder="Ask about your Splunk data…"
+          autocomplete="off"
+          required
+        >
+        <button type="submit" id="askBtn">
+          <span class="btn-label">Ask</span>
+        </button>
+      </form>
+    </section>
+
+    <section class="panel trace-panel">
+      <div class="panel-head">
+        <h2>Pipeline trace</h2>
+      </div>
+
+      <ol class="trace" id="trace">
+        <li class="trace-step" data-step="1">
+          <div class="trace-marker">1</div>
+          <div class="trace-body">
+            <h3>Generate SPL</h3>
+            <p class="trace-desc">Natural language → SPL query</p>
+            <pre class="trace-output" id="splOutput">—</pre>
+          </div>
+        </li>
+
+        <li class="trace-step" data-step="2">
+          <div class="trace-marker">2</div>
+          <div class="trace-body">
+            <h3>Run on Splunk</h3>
+            <p class="trace-desc">Executed via MCP <code>splunk_run_query</code></p>
+            <div class="trace-output" id="eventsOutput">—</div>
+          </div>
+        </li>
+
+        <li class="trace-step" data-step="3">
+          <div class="trace-marker">3</div>
+          <div class="trace-body">
+            <h3>Summarize</h3>
+            <p class="trace-desc">Plain-English result</p>
+            <div class="trace-output" id="summaryPreview">—</div>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Pipeline: User question → LLM (NL → SPL) → Splunk MCP Server → Splunk → LLM (summarize) → Response</p>
+  </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
